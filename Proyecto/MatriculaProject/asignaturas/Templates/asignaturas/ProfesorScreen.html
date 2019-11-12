@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html ng-app="AngularApp">
+
+<head>
+    <meta charset="utf 8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'asignaturas/Profesor.css' %}">
+    <title>Mockup</title>
+
+</head>
+<body>
+
+
+
+
+  <div class="row" style="width:100%;">
+    <br>
+
+    <br>
+  </div>
+  <div class="row" style="width:100%;">
+    <div class="col-sm-3 col-md-3"></div>
+
+    <div class="col-sm-9 col-md-6" style="width:50%;">
+
+      <h2 align=center>Gestión De Matrícula - Profesor</h2>
+
+      <br>
+      <!--Name-->
+      <div class="row align-items-center" style="width:100%;">
+        <div class="col-sm-6 col-md-6" style="width:50%">
+      <label for="Nombre" class="center-block text-center">Nombres:</label>
+    </div>
+    <div class="col-sm-6 col-md-6" style="width:50%;">
+      <input type="text" class="form-control" id="Name" placeholder="{{Persona.Name}}" value="{{Persona.Name}}" name="Name" readonly="readonly">
+    </div>
+    </div>
+    <!--End_Name-->
+
+    <!--LastName-->
+    <div class="row align-items-center" style="width:100%;">
+      <div class="col-sm-6 col-md-6" style="width:50%">
+    <label for="Apellido" class="center-block text-center">Apellidos:</label>
+  </div>
+  <div class="col-sm-6 col-md-6" style="width:50%;">
+    <input type="text" class="form-control" id="Apellido" placeholder="{{Persona.LastName}}" name="Apellido" readonly="readonly">
+  </div>
+  </div>
+  <!--End_LastName-->
+
+  <!--Code-->
+  <div class="row align-items-center" style="width:100%;">
+    <div class="col-sm-6 col-md-6" style="width:50%">
+  <label for="Code" class="center-block text-center">DNI:</label>
+</div>
+<div class="col-sm-6 col-md-6" style="width:50%;">
+  <input type="text" class="form-control" id="Code" placeholder="{{Persona.DNI}}" name="Code" disabled>
+</div>
+</div>
+<!--End_Code-->
+
+<!--Two Columns-->
+<div class="row align-items-center" style="width:100%;">
+  <div class="col-sm-6 col-md-6 text-center" style="width:50%">
+<h4>Mis Asignaturas</h4>
+<br>
+<table id='printable'>
+<tr>
+    <th> </th>
+    <th>Nombre</th>
+    <th>Código</th>
+    <th>Semestre Mín</th>
+  </tr>
+{% for e in Asignatura %}
+  <tr>
+<td> <input type="checkbox" id="{{e.id}}" value="second_checkbox"></td>
+<td> {{e.Name}} </td>
+<td> {{e.Code}} </td>
+<td> {{e.MinSemester}} </td>
+</tr>
+
+{% endfor %}
+</table>
+<!--Buttons-->
+<br>
+
+<div class="row align-items-center" style="width:100%;">
+<div class="col-sm-4 col-md-4 text-center" style="width:33%;">
+<button type="button" class="btn btn-primary btn-sm" id="ButtonNotas">Notas</button>
+</div>
+<div class="col-sm-4 col-md-4 text-center" style="width:33%;">
+<button type="button" class="btn btn-primary btn-sm" id="ButtonImprimir" onclick="imprimir()">Imprimir</button>
+</div>
+<div class="col-sm-4 col-md-4 text-center" style="width:33%;">
+  <form id="Consultar" action='MisEstudiantes/' method='post'>
+{% csrf_token %}
+<input type="hidden" class="form-control" id="Name" placeholder="{{Persona.Name}}" value="{{Persona.Name}}" name="Name" readonly="readonly">
+<input type="hidden" class="form-control" id="Name2" placeholder="{{Persona.Name}}" value="{{Persona.Name}}" name="Name2">
+
+<button type="button" class="btn btn-primary btn-sm" id="ButtonConsultar" onclick="verify({{Todas.count}})">Consultar</button>
+</form>
+</div>
+
+</div>
+<!--End_Buttons-->
+
+</div>
+<div class="col-sm-6 col-md-6 text-center" style="width:50%;">
+  <form action='testcreate/' method='post'>
+    {% csrf_token %}
+    <input type="hidden" class="form-control" id="Name" placeholder="{{Persona.Name}}" value="{{Persona.Name}}" name="Name" readonly="readonly">
+<button type="submit" class="btn btn-primary" id="ButtonMatricular" onclick="profesor()">Crear Asignatura</button>
+</form>
+<br>
+<br>
+<form action='/' method='get'>
+  {% csrf_token %}
+<button type="submit" class="btn btn-danger" id="ButtonLogout">Logout</button>
+</form>
+</div>
+</div>
+<!--End_Two Columns-->
+
+</div>
+<script type="text/javascript">
+
+function verify(m){
+  var k=0
+  var Sid=0
+  for (var i = 0; i < (m); i++) {
+     if($('#' + (i+1)).is(":checked")){
+       k=k+1
+       Sid=i+1
+
+     }
+}
+  if(k==0){
+    alert("Por favor seleccione una asignatura")
+  }
+  if(k>1){
+    alert("Por favor selecciona sólo una asignatura")
+  }
+  if(k==1){
+  $('#Name2').val(Sid);
+  document.getElementById('Consultar').submit();
+}}
+
+function imprimir(){
+  var tab = document.getElementById('printable');
+            var win = window.open('', '', 'height=700,width=700');
+            win.document.write(tab.outerHTML);
+            win.document.close();
+            win.print();
+}
+</script>
+</body>
+
+</html>

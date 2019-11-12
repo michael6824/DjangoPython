@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html ng-app="AngularApp">
+
+<head>
+    <meta charset="utf 8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'asignaturas/asignaturas.css' %}">
+    <title>Mockup</title>
+</head>
+<body>
+  <form action='testcreate/' method='post'>
+  {% csrf_token %}
+
+  <div class="row" style="width:100%;">
+    <br>
+
+    <br>
+  </div>
+  <div class="row" style="width:100%;">
+    <div class="col-sm-3 col-md-3"></div>
+
+    <div class="col-sm-9 col-md-6" style="width:50%;">
+
+      <h2 align=center>Crear Asignatura - Profesor: {{Profesor.Persona.Name}} </h2>
+      <br>
+      <!--Name-->
+      <div class="row align-items-center" style="width:100%;">
+        <div class="col-sm-6 col-md-6" style="width:50%">
+      <label for="Nombre" class="center-block text-center">Nombre:</label>
+    </div>
+    <div class="col-sm-6 col-md-6" style="width:50%;">
+      <input type="text" class="form-control" id="Name" placeholder="ShowName" name="Name">
+    </div>
+    </div>
+    <!--End_Name-->
+
+    <!--Code-->
+    <div class="row align-items-center" style="width:100%;">
+      <div class="col-sm-6 col-md-6" style="width:50%">
+    <label for="Apellido" class="center-block text-center">Code:</label>
+  </div>
+  <div class="col-sm-6 col-md-6" style="width:50%;">
+    <input type="text" class="form-control" id="Code" placeholder="Code" name="Code">
+  </div>
+  </div>
+  <!--End_Code-->
+
+  <!--MinSemester-->
+  <div class="row align-items-center" style="width:100%;">
+    <div class="col-sm-6 col-md-6" style="width:50%">
+  <label for="Code" class="center-block text-center">MinSemester:</label>
+</div>
+<div class="col-sm-6 col-md-6" style="width:50%;">
+  <input type="number" class="form-control" id="MinSemester" placeholder="MinSemester" name="MinSemester" >
+</div>
+</div>
+<!--End_MinSemester-->
+
+<!--Buttons-->
+
+
+<div class="row align-items-center" style="width:100%;">
+<div class="col-sm-6 col-md-6" style="width:50%;">
+    <input type="hidden" name="next" value="{{ request.path|urlencode }}">
+    <input type="hidden" class="form-control" id="Name" placeholder="{{Profesor.Persona.Name}}" value="{{Profesor.Persona.Name}}" name="Name">
+
+<button type="submit" class="btn btn-danger btn-sm" id="ButtonBack">Back</button>
+</form>
+</div>
+<div class="col-sm-6 col-md-6" style="width:50%;">
+    <form onsubmit="return false;">
+<button type="submit" class="btn btn-success btn-sm" id="ButtonConfirm" onclick="create()">Confirm</button>
+  </form>
+</div>
+
+</div>
+<!--End_Buttons-->
+
+</div>
+
+<script type="text/javascript">
+
+function create(){
+data={}
+data = {
+  csrfmiddlewaretoken: '{{ csrf_token}}',
+};
+data["Profesor"] = "{{Profesor.ProfesorID}}";
+data["Nombre"] = $('#Name').val();
+data["Code"] = $('#Code').val();
+data["MinSemester"] = $('#MinSemester').val();
+console.log(data)
+  $('.ajaxProgress').show();
+  $.ajax({
+    type: "POST",
+    url: "/",
+    dataType: "json",
+    async: true,
+    data,
+    success: function (json) {
+      alert(json.result);
+    }
+  });
+}
+  </script>
+
+</body>
+
+</html>

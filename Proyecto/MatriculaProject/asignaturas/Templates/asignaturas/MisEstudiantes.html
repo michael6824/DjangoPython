@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html ng-app="AngularApp">
+
+<head>
+    <meta charset="utf 8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'asignaturas/Profesor.css' %}">
+    <title>Mockup</title>
+</head>
+<body>
+  <form action='test/' method='post'>
+{% csrf_token %}
+  <div class="row" style="width:100%;">
+    <br>
+
+
+    <br>
+  </div>
+  <div class="row" style="width:100%;">
+    <div class="col-sm-3 col-md-3"></div>
+
+    <div class="col-sm-9 col-md-6" style="width:50%;">
+      <h2 align=center>{{AsignaturaP.Name}}</h2>
+
+      <br>
+
+
+
+<!--Lista Estudiantes-->
+<div class="row align-items-center " style="width:100%;">
+<div class="col-sm-12 col-md-12 text-center" style="width:50%;">
+
+<h4>Mis Estudiantes - Profesor: {{Profesor.Persona.Name}}</h4>
+<br>
+<table id="printable">
+<th>ID</th>
+<th>Nombre</th>
+<th>DNI</th>
+<th>Apellidos</th>
+
+</tr>
+{% for e in ListAsignaturas %}
+
+<tr>
+<td> {{e.id}}</td>
+<td> {{e.Persona.Name}} </td>
+<td> {{e.Persona.DNI}}</td>
+<td>{{e.Persona.LastName}} </td>
+</tr>
+
+{% endfor %}
+</table>
+<br>
+</div>
+</div>
+<!--End_Asignaturas No Matriculadas-->
+
+<!--Buttons-->
+
+
+<div class="row align-items-center" style="width:100%;">
+<div class="col-sm-12 col-md-12 text-center" style="width:50%;">
+
+  </form>
+
+  <form onsubmit="return false;">
+<button type="submit" class="btn btn-success btn-sm" onclick="imprimir()" id="ButtonConfirm" style="align:center">Imprimir</button>
+</form>
+</div>
+
+</div>
+<!--End_Buttons-->
+
+</div>
+<script type="text/javascript">
+
+function imprimir(){
+  var tab = document.getElementById('printable');
+            var win = window.open('', '', 'height=700,width=700');
+            win.document.write(tab.outerHTML);
+            win.document.close();
+            win.print();
+}
+  </script>
+</body>
+
+</html>

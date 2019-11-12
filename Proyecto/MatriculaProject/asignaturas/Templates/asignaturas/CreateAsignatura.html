@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html ng-app="AngularApp">
+
+<head>
+    <meta charset="utf 8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'asignaturas/asignaturas.css' %}">
+    <title>Mockup</title>
+</head>
+<body>
+
+  <div class="row" style="width:100%;">
+    <br>
+
+    <br>
+  </div>
+  <div class="row" style="width:100%;">
+    <div class="col-sm-3 col-md-3"></div>
+
+    <div class="col-sm-9 col-md-6" style="width:50%;">
+
+      <h2 align=center>Crear Asignatura - Profesor</h2>
+      <br>
+      <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit" name="button"></button>
+
+        </form>
+<!--Buttons-->
+
+
+<div class="row align-items-center" style="width:100%;">
+<div class="col-sm-6 col-md-6" style="width:50%;">
+<button type="button" class="btn btn-danger btn-sm" id="ButtonBack">Back</button>
+</div>
+<div class="col-sm-6 col-md-6" style="width:50%;">
+<button type="button" class="btn btn-success btn-sm" id="ButtonConfirm">Confirm</button>
+</div>
+
+</div>
+<!--End_Buttons-->
+{% if messages %}
+<ul class="messages">
+{% for message in messages %}
+  <li class="{{ message.tags }}">{{ message }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+</div>
+
+  </body>
+
+</html>

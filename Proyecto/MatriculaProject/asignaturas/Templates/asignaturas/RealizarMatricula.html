@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html ng-app="AngularApp">
+
+<head>
+    <meta charset="utf 8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'asignaturas/Profesor.css' %}">
+    <title>Mockup</title>
+</head>
+<body>
+  <form action='RealizarMatricula/' method='post'>
+{% csrf_token %}
+  <div class="row" style="width:100%;">
+    <br>
+    {% for e in Asignatura %}
+  <td> {{e.Name}} </td>
+
+{% endfor %}
+
+    <br>
+  </div>
+  <div class="row" style="width:100%;">
+    <div class="col-sm-3 col-md-3"></div>
+
+    <div class="col-sm-9 col-md-6" style="width:50%;">
+
+      <h2 align=center>Matrícula - Alumno</h2>
+      <br>
+      <form method='post'>
+        {% csrf_token %}
+      <!--Name-->
+      <div class="row align-items-center" style="width:100%;">
+        <div class="col-sm-6 col-md-6" style="width:50%">
+      <label for="Nombre" class="center-block text-center">Nombres:</label>
+    </div>
+    <div class="col-sm-6 col-md-6" style="width:50%;">
+      <input type="text" class="form-control" id="Name" placeholder={{Persona.Name}} value="{{Persona.Name}}" name="Name" readonly="readonly">
+    </div>
+    </div>
+    <!--End_Name-->
+
+    <!--LastName-->
+    <div class="row align-items-center" style="width:100%;">
+      <div class="col-sm-6 col-md-6" style="width:50%">
+    <label for="Apellido" class="center-block text-center">Apellidos:</label>
+  </div>
+  <div class="col-sm-6 col-md-6" style="width:50%;">
+    <input type="text" class="form-control" id="Apellido" placeholder="{{Persona.LastName}}" name="Apellido" disabled>
+  </div>
+  </div>
+  <!--End_LastName-->
+
+  <!--Code-->
+  <div class="row align-items-center" style="width:100%;">
+    <div class="col-sm-6 col-md-6" style="width:50%">
+  <label for="Code" class="center-block text-center">DNI:</label>
+</div>
+<div class="col-sm-6 col-md-6" style="width:50%;">
+  <input type="text" class="form-control" id="Code" placeholder="{{Persona.DNI}}" name="Code" readonly="readonly">
+</div>
+</div>
+<!--End_Code-->
+
+</form>
+
+
+<!--Asignaturas No Matriculadas-->
+<div class="row align-items-center " style="width:100%;">
+<div class="col-sm-12 col-md-12 text-center" style="width:50%;">
+  <br>
+<h4>Asignaturas No Matriculadas</h4>
+<br>
+<table>
+<th> </th>
+<th>Nombre</th>
+<th>Código</th>
+<th>Semestre Mín</th>
+</tr>
+{% for e in Todas %}
+{% if e in Matriculadas %}
+{% else %}
+
+<tr>
+<td> <input type="checkbox" id={{e.id}} value="second_checkbox"></td>
+<td> {{e.Name}} </td>
+<td> <input type="text" class="form-control" id="Code{{e.id}}" placeholder="{{e.Code}}" value="{{e.Code}}" style="background-color: transparent;
+    border: 0px solid;" readonly="readonly"> </td>
+<td> {{e.MinSemester}} </td>
+</tr>
+{% endif %}
+{% endfor %}
+</table>
+<br>
+</div>
+</div>
+<!--End_Asignaturas No Matriculadas-->
+
+<!--Buttons-->
+
+
+<div class="row align-items-center" style="width:100%;">
+<div class="col-sm-6 col-md-6" style="width:50%;">
+
+    <input type="hidden" name="next" value="{{ request.path|urlencode }}">
+<button type="submit" class="btn btn-danger btn-sm" id="ButtonBack">Back</button>
+</form>
+</div>
+<div class="col-sm-6 col-md-6" style="width:50%;">
+  <form onsubmit="return false;">
+<button type="submit" class="btn btn-success btn-sm" onclick="create({{Todas.count}})" id="ButtonConfirm">Confirm</button>
+</form>
+</div>
+
+</div>
+<!--End_Buttons-->
+
+</div>
+<script type="text/javascript">
+
+function create(m){
+var k="";
+data = {
+  csrfmiddlewaretoken: '{{ csrf_token}}',
+};
+data["Student"] = $('#Name').val();
+
+for (var i = 0; i < (m); i++) {
+   if($('#' + (i+1)).is(":checked")){
+     data['Code'+i]= $('#Code'+(i+1)).val();
+   }
+}
+
+console.log(data)
+  $('.ajaxProgress').show();
+  $.ajax({
+    type: "POST",
+    url: "/",
+    dataType: "json",
+    async: true,
+    data,
+    success: function (json) {
+      alert("Las Asignaturas fueron Matrículadas")
+      location.reload()
+    }
+  });
+}
+  </script>
+</body>
+
+</html>

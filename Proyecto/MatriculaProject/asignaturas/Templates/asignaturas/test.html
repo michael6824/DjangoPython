@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html ng-app="AngularApp">
+
+<head>
+    <meta charset="utf 8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'asignaturas/asignaturas.css' %}">
+    <title>Mockup</title>
+</head>
+<body>
+
+  <div class="row" style="width:100%;">
+    <br>
+
+    <br>
+  </div>
+  <div class="row" style="width:100%;">
+    <div class="col-sm-3 col-md-3"></div>
+
+    <div class="col-sm-9 col-md-6" style="width:50%;">
+
+      <h2 align=center>Gestión De Matrícula - Alumno</h2>
+      <br>
+      <!--Name-->
+      <div class="row align-items-center" style="width:100%;">
+        <div class="col-sm-6 col-md-6" style="width:50%">
+      <label for="Nombre" class="center-block text-center">Nombres:</label>
+    </div>
+    <div class="col-sm-6 col-md-6" style="width:50%;">
+      <input type="text" class="form-control" id="Name" placeholder="ShowName" name="Name" disabled>
+    </div>
+    </div>
+    <!--End_Name-->
+
+    <!--LastName-->
+    <div class="row align-items-center" style="width:100%;">
+      <div class="col-sm-6 col-md-6" style="width:50%">
+    <label for="Apellido" class="center-block text-center">Apellidos:</label>
+  </div>
+  <div class="col-sm-6 col-md-6" style="width:50%;">
+    <input type="text" class="form-control" id="Apellido" placeholder="ShowLastName" name="Apellido" disabled>
+  </div>
+  </div>
+  <!--End_LastName-->
+
+  <!--Code-->
+  <div class="row align-items-center" style="width:100%;">
+    <div class="col-sm-6 col-md-6" style="width:50%">
+  <label for="Code" class="center-block text-center">Code:</label>
+</div>
+<div class="col-sm-6 col-md-6" style="width:50%;">
+  <input type="text" class="form-control" id="Code" placeholder="ShowCode" name="Code" disabled>
+</div>
+</div>
+<!--End_Code-->
+
+<!--Two Columns-->
+<div class="row align-items-center" style="width:100%;">
+  <div class="col-sm-6 col-md-6" style="width:50%">
+<h4>Asignaturas Matriculadas</h4>
+
+{% if object_list %}
+{% for alumno in object_list %}
+<tr>
+  <td>{{alumno.id}}</td>
+  <td>{{alumno.Persona.Name}}</td>
+
+</tr>
+{% endfor %}
+{% else %}
+<h1> No hay Registros </h1>
+{% endif %}
+</div>
+<div class="col-sm-6 col-md-6" style="width:50%;">
+<button type="button" class="btn btn-primary" id="ButtonMatricular">Matricular</button>
+<br>
+<br>
+<button type="button" class="btn btn-danger" id="ButtonLogout">Logout</button>
+</div>
+</div>
+<!--End_Two Columns-->
+
+</div>
+
+</body>
+
+</html>

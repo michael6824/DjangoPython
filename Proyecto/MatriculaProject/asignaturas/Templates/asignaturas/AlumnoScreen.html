@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html ng-app="AngularApp">
+
+<head>
+    <meta charset="utf 8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'asignaturas/Profesor.css' %}">
+    <title>Mockup</title>
+</head>
+<body>
+  <form action='RealizarMatricula/' method='post'>
+{% csrf_token %}
+  <div class="row" style="width:100%;">
+    <br>
+
+
+    <br>
+  </div>
+  <div class="row" style="width:100%;">
+    <div class="col-sm-3 col-md-3"></div>
+
+    <div class="col-sm-9 col-md-6" style="width:50%;">
+
+      <h2 align=center>Gestión De Matrícula - Alumno</h2>
+      <br>
+      <!--Name-->
+      <div class="row align-items-center" style="width:100%;">
+        <div class="col-sm-6 col-md-6" style="width:50%">
+      <label for="Nombre" class="center-block text-center">Nombres:</label>
+    </div>
+    <div class="col-sm-6 col-md-6" style="width:50%;">
+      <input type="text" class="form-control" placeholder="{{Persona.Name}}" value="{{Persona.Name}}" id="{{Persona.Name}}" name="Name" readonly="readonly">
+    </div>
+    </div>
+    <!--End_Name-->
+
+    <!--LastName-->
+    <div class="row align-items-center" style="width:100%;">
+      <div class="col-sm-6 col-md-6" style="width:50%">
+    <label for="Apellido" class="center-block text-center">Apellidos:</label>
+  </div>
+  <div class="col-sm-6 col-md-6" style="width:50%;">
+    <input type="text" id="Apellido" placeholder="{{Persona.LastName}}" name="Apellido" disabled>
+  </div>
+  </div>
+  <!--End_LastName-->
+
+  <!--Code-->
+  <div class="row align-items-center" style="width:100%;">
+    <div class="col-sm-6 col-md-6" style="width:50%">
+  <label for="Code" class="center-block text-center">DNI:</label>
+</div>
+<div class="col-sm-6 col-md-6" style="width:50%;">
+  <input type="text" id="Code" placeholder="{{Persona.DNI}}" name="Code" disabled>
+</div>
+</div>
+<!--End_Code-->
+<br>
+<!--Two Columns-->
+<div class="row align-items-center" style="width:100%;">
+  <div class="col-sm-6 col-md-6 text-center" style="width:50%">
+<h4>Asignaturas Matriculadas</h4>
+<br>
+<table>
+<tr>
+
+    <th>Nombre</th>
+    <th>Código</th>
+    <th>Semestre Mín</th>
+  </tr>
+{% for e in Asignatura %}
+  <tr>
+
+<td> {{e.Name}} </td>
+<td> {{e.Code}} </td>
+<td> {{e.MinSemester}} </td>
+</tr>
+
+{% endfor %}
+</table>
+</div>
+<div class="col-sm-6 col-md-6 text-center" style="width:50%;">
+
+
+<button type="submit" class="btn btn-primary" id="ButtonMatricular">Matricular</button>
+</form>
+<br>
+<br>
+<form action='/' method='get'>
+  {% csrf_token %}
+<button type="submit" class="btn btn-danger" id="ButtonLogout">Logout</button>
+</form>
+</div>
+</div>
+<!--End_Two Columns-->
+
+</div>
+
+
+
+</body>
+
+</html>
