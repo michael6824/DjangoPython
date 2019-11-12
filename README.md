@@ -11,3 +11,5 @@ cd ..C:\Users\Usuario\Documents\DjangoPython\Proyecto\MatriculaProject
 
 python manage.py runserver --> sometimes this command must be send twice
 
+
+Atom 1.41.0 
